@@ -1,0 +1,1 @@
+To build, you'll need CMake and SFML 2.  Make a directory named 'cmake_modules' and copy the FindSFML.cmake file that comes with your SFML installation in rootdir/cmake_modules.  Make a build directory in the root directory, and do cmake .. in rootdir/build.  
