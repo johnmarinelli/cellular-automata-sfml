@@ -17,19 +17,19 @@ public:
 		mCells.reserve((WINDOW_WIDTH / CA::CELL_WIDTH) * (WINDOW_HEIGHT / CA::CELL_HEIGHT));
 	}
 
-	void addCell(Cell& cell)
+	void addCell(std::shared_ptr<CA::Cell> cell)
 	{
 		mCells.push_back(cell);
 	}
 
 	void render()
 	{
-		for(auto& cell : mCells){
-			if(cell.getState()){
-				auto rect = cell.getRectComponent().getFloatRect();
-				auto shape = cell.getShapeComponent();
+		for(auto cell : mCells){
+			if(cell->getState()){
+				auto rect = cell->getRectComponent().getFloatRect();
+				auto shape = cell->getShapeComponent();
 
-				shape.getRectangleShape().setFillColor(cell.getGraphics());
+				shape.getRectangleShape().setFillColor(cell->getGraphics());
 				shape.getRectangleShape().setPosition(rect.left, rect.top);
 				mWindow->draw(shape.getRectangleShape());	
 			}
@@ -38,6 +38,7 @@ public:
 
 	~RenderSystem()
 	{
+		mCells.clear();
 	}
 };
 

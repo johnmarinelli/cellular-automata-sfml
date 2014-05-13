@@ -4,13 +4,14 @@
 #include "Cell.hpp"
 #include "Systems/RenderSystem.hpp"
 #include <vector>
+#include <memory>
 
 namespace CA{
 
 class World
 {
 private:
-	typedef std::vector<Cell> CellArray;
+	typedef std::vector<std::shared_ptr<Cell> > CellArray;
 
 	CA::RenderSystem mRenderSystem;
 	CellArray mCells;	

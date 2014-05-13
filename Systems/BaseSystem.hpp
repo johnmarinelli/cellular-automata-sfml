@@ -2,13 +2,14 @@
 #define BASESYSTEM_HPP
 
 #include <vector>
+#include <memory>
 
 namespace CA{
 
 class BaseSystem
 {
 public:
-	typedef std::vector<CA::Cell> CellArray;
+	typedef std::vector<std::shared_ptr<CA::Cell> > CellArray;
 
 	BaseSystem()
 	{

@@ -9,8 +9,8 @@
 
 namespace CA{
 
-const float CELL_WIDTH = 10;
-const float CELL_HEIGHT = 10;
+const float CELL_WIDTH = 20;
+const float CELL_HEIGHT = 20;
 
 class Cell
 {
@@ -45,6 +45,7 @@ public:
 
 	void setState(bool state)
 	{
+		if(state == false){printf("i am getting set to false\n");};
 		mState = state;
 	}
 	
