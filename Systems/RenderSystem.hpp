@@ -3,7 +3,6 @@
 
 #include "BaseSystem.hpp"
 
-#include <iostream>
 namespace CA{
 
 class RenderSystem : public BaseSystem
@@ -14,7 +13,8 @@ private:
 	
 public:
 	RenderSystem(sf::RenderWindow& target) : mWindow(&target)
-	{
+	{	
+		mCells.reserve((WINDOW_WIDTH / CA::CELL_WIDTH) * (WINDOW_HEIGHT / CA::CELL_HEIGHT));
 	}
 
 	void addCell(Cell& cell)
@@ -29,18 +29,13 @@ public:
 				auto rect = cell.getRectComponent().getFloatRect();
 				auto shape = cell.getShapeComponent();
 
-				shape.getRectangleShape().setFillColor(sf::Color(100, 250, 50));
+				shape.getRectangleShape().setFillColor(cell.getGraphics());
 				shape.getRectangleShape().setPosition(rect.left, rect.top);
 				mWindow->draw(shape.getRectangleShape());	
 			}
 		}
 	}
 
-	void temp()
-	{
-		std::cout << mCells.size() << "RS" << std::endl;
-	}
-	
 	~RenderSystem()
 	{
 	}

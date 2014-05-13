@@ -9,12 +9,12 @@
 
 namespace CA{
 
+const float CELL_WIDTH = 10;
+const float CELL_HEIGHT = 10;
+
 class Cell
 {
 private:
-	const float CELL_WIDTH = 5;
-	const float CELL_HEIGHT = 5;
-
 	/*
 	* I want to do an array of basecomponents but this is such a small project it woul 
 	* be a case of overengineering
@@ -42,10 +42,20 @@ public:
 	{
 		return mShape;
 	}
+
+	void setState(bool state)
+	{
+		mState = state;
+	}
 	
 	bool getState() const
 	{
 		return mState;
+	}
+	
+	sf::Color getGraphics() const
+	{
+		return mState ? sf::Color::White : sf::Color::Black;
 	}
 };
 
