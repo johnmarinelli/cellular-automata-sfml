@@ -6,6 +6,9 @@
 #include <vector>
 #include <memory>
 
+const int GRIDCELL_WIDTH = WINDOW_WIDTH / CA::CELL_WIDTH;
+const int GRIDCELL_HEIGHT = WINDOW_HEIGHT / CA::CELL_HEIGHT;
+
 namespace CA{
 
 class World

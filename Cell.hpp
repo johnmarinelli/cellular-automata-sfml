@@ -9,8 +9,8 @@
 
 namespace CA{
 
-const float CELL_WIDTH = 20;
-const float CELL_HEIGHT = 20;
+const float CELL_WIDTH = 5;
+const float CELL_HEIGHT = 5;
 
 class Cell
 {
@@ -21,10 +21,10 @@ private:
 	*/
 	RectComponent mRect;
 	ShapeComponent mShape;
-	bool mState;
+	bool mState, mNextState;
 
 public:
-	Cell(float x, float y, bool state) : mRect(x, y, CELL_WIDTH, CELL_HEIGHT), mShape(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT)), mState(state)
+	Cell(float x, float y, bool state) : mRect(x, y, CELL_WIDTH, CELL_HEIGHT), mShape(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT)), mState(state), mNextState(state)
 	{
 	}
 
@@ -43,10 +43,15 @@ public:
 		return mShape;
 	}
 
+	void update(float dTime)
+	{
+		mState = mNextState;
+	}
+
 	void setState(bool state)
 	{
-		if(state == false){printf("i am getting set to false\n");};
-		mState = state;
+//		if(state == false){printf("i am getting set to false\n");};
+		mNextState = state;
 	}
 	
 	bool getState() const

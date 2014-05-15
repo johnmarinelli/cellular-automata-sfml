@@ -3,7 +3,7 @@
 
 #include "Game.hpp"
 
-const float FRAMERATE = 1;
+const float FRAMERATE = .5;
 const float FPS = 1000 / FRAMERATE;
 
 int Run(Game& game, sf::RenderWindow& window)
@@ -26,9 +26,8 @@ int Run(Game& game, sf::RenderWindow& window)
 
 		time = clock.getElapsedTime();
 	
-		printf("%d\n", time.asMilliseconds());
 		if(time.asMilliseconds() < FPS){
-			printf("sleeping");
+			printf("sleeping: %d\n", sf::milliseconds(FPS-time.asMilliseconds()).asMilliseconds());
 			sf::sleep(sf::milliseconds(FPS - time.asMilliseconds()));
 		}
 	
