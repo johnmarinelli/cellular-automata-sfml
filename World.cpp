@@ -92,7 +92,7 @@ void updateCell(std::shared_ptr<Cell> cell, int x, int y, std::vector<std::share
 	}
 }
 
-World::World(sf::RenderWindow& target) : mRenderSystem(target)
+World::World(sf::RenderWindow& target) : mRenderSystem(target), mRuleSystem(CA::BaseNeighborhood::MOORE)
 {
 	mCells.reserve(GRIDCELL_WIDTH * GRIDCELL_HEIGHT);
 }
@@ -104,6 +104,7 @@ void World::init()
 			auto cell = std::make_shared<Cell>(i, j, false);
 			mCells.push_back(cell);
 			mRenderSystem.addCell(cell);
+			mRuleSystem.addNeighborhood(cell);
 		}
 	}
 
@@ -111,48 +112,6 @@ void World::init()
 	mCells[getIndex(3, 2)]->setState(true);
 	mCells[getIndex(3, 3)]->setState(true);
 	mCells[getIndex(3, 4)]->setState(true);
-
-/*	sf::sleep(sf::milliseconds(1500));	
-
-	for(int i = 0; i < GRIDCELL_WIDTH; ++i){
-		for(int j = 0; j < GRIDCELL_HEIGHT; ++j){
-			auto cell = mCells[getIndex(i, j)];
-			updateCell(cell, i, j, mCells);
-		}
-	}
-	for(auto cell : mCells){
-		cell->update(0);
-	}
-	for(int i = 0; i < GRIDCELL_WIDTH; ++i){
-		for(int j = 0; j < GRIDCELL_HEIGHT; ++j){
-			auto cell = mCells[getIndex(i, j)];
-			updateCell(cell, i, j, mCells);
-		}
-	}
-	for(auto cell : mCells){
-		cell->update(0);
-	}
-	for(int i = 0; i < GRIDCELL_WIDTH; ++i){
-		for(int j = 0; j < GRIDCELL_HEIGHT; ++j){
-			auto cell = mCells[getIndex(i, j)];
-			updateCell(cell, i, j, mCells);
-		}
-	}
-	for(auto cell : mCells){
-		cell->update(0);
-	}
-	for(int i = 0; i < GRIDCELL_WIDTH; ++i){
-		for(int j = 0; j < GRIDCELL_HEIGHT; ++j){
-			auto cell = mCells[getIndex(i, j)];
-			updateCell(cell, i, j, mCells);
-		}
-	}
-	for(auto cell : mCells){
-		cell->update(0);
-	}
-
-*/
-	std::cout << "world::init " << mCells.size() << " " << std::endl;
 }
 
 void World::update(float dTime)
@@ -167,7 +126,6 @@ void World::update(float dTime)
 	for(auto cell : mCells){
 		cell->update(0);
 	}
-
 }
 
 void World::render()

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <memory>
+#include "../Cell.hpp"
 
 namespace CA{
 

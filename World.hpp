@@ -2,7 +2,9 @@
 #define WORLD_HPP
 
 #include "Cell.hpp"
+#include "Neighborhoods/BaseNeighborhood.hpp"
 #include "Systems/RenderSystem.hpp"
+#include "Systems/RuleSystem.hpp"
 #include <vector>
 #include <memory>
 
@@ -17,7 +19,8 @@ private:
 	typedef std::vector<std::shared_ptr<Cell> > CellArray;
 
 	CA::RenderSystem mRenderSystem;
-	CellArray mCells;	
+	CA::RuleSystem mRuleSystem;
+	CellArray mCells;
 
 public:
 	World(sf::RenderWindow& target);
