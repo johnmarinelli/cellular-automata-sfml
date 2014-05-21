@@ -56,15 +56,25 @@ public:
         	startY = y;
     	    endY = y + 1;
 	    }
-		
-		for(; startX <= endX; startX++){
-			for(; startY <= endY; startY++){
-				mCells.push_back(cells[getIndexNeighborhood(x, y)]);
+
+		//from (x,y) to our local neighborhood of (i, j)
+		int i = 0;
+		int j = 0;
+
+		for(; startX <= endX; startX++, i++){
+			for(; startY <= endY; startY++, j++){
+				insert_at(mCells, (i+j*3), cells[getIndexNeighborhood(x,y)]);
 			}
 			startY = y > 0 ? y-1 : y;
+			j = 0;
 		}
 	}
-	
+
+	NeighborBitset update(float dTime)
+	{
+		
+	}
+		
     ~Moore()
     {
 		mCells.clear();

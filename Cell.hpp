@@ -12,6 +12,8 @@ namespace CA{
 const float CELL_WIDTH = 5;
 const float CELL_HEIGHT = 5;
 
+enum State{ OFF, ON };
+
 class Cell
 {
 private:

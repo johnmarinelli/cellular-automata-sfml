@@ -1,5 +1,6 @@
 #include "World.hpp"
 #include <math.h>
+#include <fstream>
 #include <iostream>
 #include <memory>
 
@@ -99,6 +100,9 @@ World::World(sf::RenderWindow& target) : mRenderSystem(target), mRuleSystem(CA::
 
 void World::init()
 {
+	std::ifstream rulesFile("Rules/Conway.txt");
+	mRuleSystem.initRules(rulesFile);
+
 	//push shared ptr in mCells, and send it to rulesystem to make a neighborhood
 	for(int i = 0; i < WINDOW_WIDTH; i+=CA::CELL_WIDTH){
 		for(int j = 0; j < WINDOW_HEIGHT; j+=CA::CELL_HEIGHT){
