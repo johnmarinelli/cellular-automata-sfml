@@ -99,12 +99,20 @@ World::World(sf::RenderWindow& target) : mRenderSystem(target), mRuleSystem(CA::
 
 void World::init()
 {
+	//push shared ptr in mCells, and send it to rulesystem to make a neighborhood
 	for(int i = 0; i < WINDOW_WIDTH; i+=CA::CELL_WIDTH){
 		for(int j = 0; j < WINDOW_HEIGHT; j+=CA::CELL_HEIGHT){
 			auto cell = std::make_shared<Cell>(i, j, false);
 			mCells.push_back(cell);
 			mRenderSystem.addCell(cell);
 			mRuleSystem.addNeighborhood(cell);
+		}
+	}
+
+	//initialize all the neighborhoods AFTER our mCells is complete
+	for(int i = 0; i < GRIDCELL_WIDTH; ++i){
+		for(int j = 0; j < GRIDCELL_HEIGHT; ++j){
+			mRuleSystem.initNeighborhoods(mCells, i, j);
 		}
 	}
 

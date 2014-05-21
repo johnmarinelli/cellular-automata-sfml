@@ -20,6 +20,7 @@ public:
 	}
 
 	void addNeighborhood(std::shared_ptr<CA::Cell> center);
+	void initNeighborhoods(std::vector<std::shared_ptr<CA::Cell> >& cells, int arrayIndex_x, int arrayIndex_y);
 
 	void update(float dTime);
 
