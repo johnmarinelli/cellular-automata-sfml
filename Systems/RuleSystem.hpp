@@ -4,6 +4,7 @@
 #include <fstream>
 #include "BaseSystem.hpp"
 #include "../Neighborhoods/BaseNeighborhood.hpp"
+#include "../Components/RuleComponent.hpp"
 
 namespace CA{
 
@@ -11,7 +12,7 @@ class RuleSystem : public BaseSystem
 {
 private:
 	typedef std::vector<std::shared_ptr<CA::BaseNeighborhood> > NeighborhoodArray;
-	typedef std::vector<std::vector<CA::State> > RuleArray;
+	typedef std::vector<RuleComponent> RuleArray;
 
 	NeighborhoodArray mNeighborhoodArray;
 	RuleArray mRules;

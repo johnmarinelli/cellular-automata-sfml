@@ -9,8 +9,8 @@
 
 namespace CA{
 
-const float CELL_WIDTH = 5;
-const float CELL_HEIGHT = 5;
+const float CELL_WIDTH = 10;
+const float CELL_HEIGHT = 10;
 
 enum State{ OFF, ON };
 

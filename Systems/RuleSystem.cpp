@@ -21,7 +21,7 @@ std::vector<CA::State> turnStringToBitset(std::string& bitString)
 		 if(c == '1'){
 			bitSet.push_back(CA::State::ON);
 		}
-		else{
+		else if(c == '0'){
 			bitSet.push_back(CA::State::OFF);
 		}
 	}
@@ -38,17 +38,23 @@ void RuleSystem::initRules(std::ifstream& rulesFile)
 	else{
 		std::string neighborhoodType;
 		rulesFile >> neighborhoodType;
+		RuleComponent rule(3); //need to make 3 a variable for genericism
 
-		//remember to change mNeighborhoodType 
-
-		while(rulesFile){
-			std::string bitString;
-			getline(rulesFile, bitString);
-	
-			//make a bitset from the string.
-			//REFACTOR THIS INTO A RULE CLASS
-			std::vector<CA::State> bitSet= turnStringToBitset(bitString);				mRules.push_back(bitSet);	
-		}	
+		while(!rulesFile.eof()){
+			std::string str;
+			getline(rulesFile, str);
+		
+			if(str == "/rule"){
+				mRules.push_back(rule);
+				rule.clear();
+			}
+			
+			else if(str != ""){	
+				//make a bitset from the string.
+				std::vector<CA::State> bitSet= turnStringToBitset(str);
+				rule.addLine(bitSet);
+			}
+		}
 	}
 }
 
@@ -60,8 +66,16 @@ void RuleSystem::addNeighborhood(std::shared_ptr<CA::Cell> center)
 	}
 }
 
+void anchor()
+{
+}
+
 void RuleSystem::initNeighborhoods(std::vector<std::shared_ptr<CA::Cell> >& cells, int arrayIndex_x, int arrayIndex_y)
 {
+	if(arrayIndex_y == 61){
+		anchor();
+	}
+
 	mNeighborhoodArray[getIndexRuleSystem(arrayIndex_x, arrayIndex_y)]->init(cells, arrayIndex_x, arrayIndex_y);	
 }
 

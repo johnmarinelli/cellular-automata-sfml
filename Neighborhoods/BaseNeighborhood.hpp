@@ -30,13 +30,15 @@ int getIndexNeighborhood(int x, int y)
 
 	enum Neighborhoods { ONE_D_THREE_CELL, ONE_D_FIVE_CELL, VON_NEUMANN, MOORE };
     Neighborhoods mNeighborhoodType;
+	int mWidth;
+	int mHeight;
 
 	typedef std::vector<std::shared_ptr<CA::Cell> > CellArray;
 	CellArray mCells;
 
 	std::shared_ptr<CA::Cell> mCenter;	
 
-	BaseNeighborhood(Neighborhoods hood, std::shared_ptr<CA::Cell> center) : mNeighborhoodType(hood), mCenter(center)
+	BaseNeighborhood(Neighborhoods hood, std::shared_ptr<CA::Cell> center, int width, int height) : mNeighborhoodType(hood), mCenter(center), mWidth(width), mHeight(height)
 	{
 	}
 	

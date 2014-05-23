@@ -13,7 +13,7 @@ class Moore : public BaseNeighborhood
 private:
 
 public:
-    Moore(std::shared_ptr<CA::Cell> center) : BaseNeighborhood(Neighborhoods::MOORE, center)
+    Moore(std::shared_ptr<CA::Cell> center) : BaseNeighborhood(Neighborhoods::MOORE, center, MOORE_NEIGHBORHOOD_WIDTH, MOORE_NEIGHBORHOOD_HEIGHT)
     {
 		mCells.reserve(MOORE_NEIGHBORHOOD_WIDTH * MOORE_NEIGHBORHOOD_HEIGHT);
     }
