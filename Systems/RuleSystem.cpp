@@ -66,23 +66,21 @@ void RuleSystem::addNeighborhood(std::shared_ptr<CA::Cell> center)
 	}
 }
 
-void anchor()
-{
-}
-
 void RuleSystem::initNeighborhoods(std::vector<std::shared_ptr<CA::Cell> >& cells, int arrayIndex_x, int arrayIndex_y)
 {
-	if(arrayIndex_y == 61){
-		anchor();
-	}
-
 	mNeighborhoodArray[getIndexRuleSystem(arrayIndex_x, arrayIndex_y)]->init(cells, arrayIndex_x, arrayIndex_y);	
+}
+
+void anchor()
+{
 }
 
 void RuleSystem::update(float dTime)
 {
 	for(auto hood : mNeighborhoodArray){
-		hood->update(dTime);
+		anchor();	
+		CA::BaseNeighborhood::NeighborBitset neighbors = hood->update(dTime);
+
 	}
 }
 

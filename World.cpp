@@ -138,6 +138,8 @@ void World::update(float dTime)
 	for(auto cell : mCells){
 		cell->update(0);
 	}
+
+	mRuleSystem.update(dTime);
 }
 
 void World::render()

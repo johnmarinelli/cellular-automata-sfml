@@ -12,7 +12,7 @@ namespace CA{
 const float CELL_WIDTH = 10;
 const float CELL_HEIGHT = 10;
 
-enum State{ OFF, ON };
+enum State { OFF = false, ON = true, INVALID };
 
 class Cell
 {
@@ -52,7 +52,6 @@ public:
 
 	void setState(bool state)
 	{
-//		if(state == false){printf("i am getting set to false\n");};
 		mNextState = state;
 	}
 	
