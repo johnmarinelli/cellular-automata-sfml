@@ -2,6 +2,7 @@
 #include <bitset>
 #include <algorithm>
 #include <iterator>
+#include <assert.h>
 
 #include "RuleSystem.hpp"
 #include "../Neighborhoods/Moore.hpp"
@@ -29,6 +30,30 @@ std::vector<CA::State> turnStringToBitset(std::string& bitString)
 	return bitSet;			
 }
 
+void RuleSystem::parseTotalisticRules(std::string str, bool isCellAliveRule)
+{
+	std::size_t gtIndex = str.find(">");
+	std::size_t ltIndex = str.find("<");
+	std::size_t eqIndex = str.find("==");
+	std::size_t assgnIndex = str.find(":");
+
+	if(gtIndex != std::string::npos){
+		int condition = str[gtIndex+1] - '0';
+		assert(condition >= 0 && condition <= 9);
+		isCellAliveRule ? mAliveToDeadGreaterThan.push_back(condition) : mDeadToAliveGreaterThan.push_back(condition);
+	}
+	else if(ltIndex != std::string::npos){
+		int condition = str[ltIndex+1] - '0';
+		assert(condition >= 0 && condition <= 9);
+		isCellAliveRule ? mAliveToDeadLessThan.push_back(condition) : mDeadToAliveLessThan.push_back(condition);
+	}
+	else if(eqIndex != std::string::npos){
+		int condition = str[eqIndex+2] - '0';
+		assert(condition >= 0 && condition <= 9);
+		isCellAliveRule ? mAliveToDeadEqualsTo.push_back(condition) : mDeadToAliveEqualsTo.push_back(condition);
+	}
+}
+
 void RuleSystem::initRules(std::ifstream& rulesFile)
 {
 	if(!rulesFile){
@@ -42,8 +67,10 @@ void RuleSystem::initRules(std::ifstream& rulesFile)
 
 		while(!rulesFile.eof()){
 			std::string str;
-			getline(rulesFile, str);
-		
+			std::getline(rulesFile, str);
+			std::cout << str << std::endl;
+	/*
+			//specific rules	
 			if(str == "/rule"){
 				mRules.push_back(rule);
 				rule.clear();
@@ -53,6 +80,28 @@ void RuleSystem::initRules(std::ifstream& rulesFile)
 				//make a bitset from the string.
 				std::vector<CA::State> bitSet= turnStringToBitset(str);
 				rule.addLine(bitSet);
+			}*/
+
+			//generic, outer totalistic rules
+			if(str == "CELLALIVE"){
+				std::getline(rulesFile, str);
+				while(str != "/CELLALIVE"){
+					parseTotalisticRules(str, true);
+					std::getline(rulesFile, str);
+				}
+			}
+			
+			else if(str == "CELLDEAD"){
+				std::getline(rulesFile, str);
+				while(str != "/CELLDEAD"){
+					parseTotalisticRules(str, false);
+					std::getline(rulesFile, str);
+				}
+			}
+			
+
+			else if(str != ""){
+				std::cout << "Couldn't understand " << str << std::endl;
 			}
 		}
 	}
@@ -78,9 +127,61 @@ void anchor()
 void RuleSystem::update(float dTime)
 {
 	for(auto hood : mNeighborhoodArray){
-		anchor();	
+		anchor();
 		CA::BaseNeighborhood::NeighborBitset neighbors = hood->update(dTime);
+		int aliveNeighbors = 0;
+		int deadNeighbors = 0;
 
+		for(auto line : neighbors){
+			for(auto cell : line){
+				if(cell == CA::State::ON){
+					aliveNeighbors++;
+				}
+				else if(cell == CA::State::OFF){
+					deadNeighbors++;
+				}
+			}
+		}
+		
+		if(hood->mCenter->getState()){
+			for(auto rule : mAliveToDeadGreaterThan){
+				if(aliveNeighbors > rule){
+					hood->mCenter->setState(false);
+				}
+			}
+
+			for(auto rule : mAliveToDeadLessThan){
+				if(aliveNeighbors < rule){
+					hood->mCenter->setState(false);
+				}
+			}
+		
+			for(auto rule : mAliveToDeadEqualsTo){
+				if(aliveNeighbors == rule){
+					hood->mCenter->setState(false);
+				}
+			}
+		}
+
+		else if(!hood->mCenter->getState()){
+			for(auto rule : mDeadToAliveGreaterThan){
+				if(aliveNeighbors > rule){
+					hood->mCenter->setState(true);
+				}
+			}
+
+			for(auto rule : mDeadToAliveLessThan){
+				if(aliveNeighbors < rule){
+					hood->mCenter->setState(true);
+				}
+			}
+
+			for(auto rule : mDeadToAliveEqualsTo){
+				if(aliveNeighbors == rule){
+					hood->mCenter->setState(true);
+				}
+			}
+		}
 	}
 }
 

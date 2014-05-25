@@ -90,7 +90,12 @@ public:
 		for(int i = 0; i < mWidth; i++){
 			bitLine.clear();
 			for(int j = 0; j < mHeight; j++){
-				bitLine.push_back(mCells[i+j*mWidth]->getState() == true ? CA::State::ON : CA::State::OFF);
+				if(mCells[i+j*mWidth].get() == mCenter.get()){
+					bitLine.push_back(CA::State::OFF);
+				}
+				else{
+					bitLine.push_back(mCells[i+j*mWidth]->getState() == true ? CA::State::ON : CA::State::OFF);
+				}
 			}
 			neighbors.push_back(bitLine);
 		}

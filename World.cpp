@@ -128,18 +128,17 @@ void World::init()
 
 void World::update(float dTime)
 {
-	for(int i = 0; i < GRIDCELL_WIDTH; ++i){
+	/*for(int i = 0; i < GRIDCELL_WIDTH; ++i){
 		for(int j = 0; j < GRIDCELL_HEIGHT; ++j){
 			auto cell = mCells[getIndex(i, j)];
 			updateCell(cell, i, j, mCells);
 		}
-	}
-
-	for(auto cell : mCells){
-		cell->update(0);
-	}
+	}*/
 
 	mRuleSystem.update(dTime);
+	for(auto cell : mCells){
+		cell->update(dTime);
+	}
 }
 
 void World::render()
