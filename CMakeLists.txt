@@ -17,13 +17,14 @@ include_directories("${PROJECT_BINARY_DIR}")
 set(EXECUTABLE_NAME "GAME")
 
 set(HEADERS
+	Config.hpp
 	Cell.hpp
 	Systems/BaseSystem.hpp
 	Systems/RenderSystem.hpp
 	Systems/RuleSystem.hpp
 )
 
-add_executable(${EXECUTABLE_NAME} main.cpp Systems/RuleSystem.cpp Game.cpp World.cpp ${HEADERS})
+add_executable(${EXECUTABLE_NAME} ${HEADERS} Systems/RuleSystem.cpp Neighborhoods/Moore.cpp World.cpp Game.cpp main.cpp)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 

@@ -5,12 +5,9 @@
 #include <vector>
 #include "Components/RectComponent.hpp"
 #include "Components/ShapeComponent.hpp"
-#include "Utilities.hpp"
+#include "Config.hpp"
 
 namespace CA{
-
-const float CELL_WIDTH = 10;
-const float CELL_HEIGHT = 10;
 
 enum State { OFF = false, ON = true, INVALID };
 

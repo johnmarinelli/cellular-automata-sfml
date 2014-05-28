@@ -6,14 +6,9 @@
 
 #include "RuleSystem.hpp"
 #include "../Neighborhoods/Moore.hpp"
+#include "../Config.hpp"
 
 namespace CA{
-
-//delete this 
-int getIndexRuleSystem(int x, int y)
-{
-    return y + (x * CA::GRIDCELL_HEIGHT);
-}
 
 std::vector<CA::State> turnStringToBitset(std::string& bitString)
 {
@@ -117,17 +112,12 @@ void RuleSystem::addNeighborhood(std::shared_ptr<CA::Cell> center)
 
 void RuleSystem::initNeighborhoods(std::vector<std::shared_ptr<CA::Cell> >& cells, int arrayIndex_x, int arrayIndex_y)
 {
-	mNeighborhoodArray[getIndexRuleSystem(arrayIndex_x, arrayIndex_y)]->init(cells, arrayIndex_x, arrayIndex_y);	
-}
-
-void anchor()
-{
+	mNeighborhoodArray[getIndex(arrayIndex_x, arrayIndex_y)]->init(cells, arrayIndex_x, arrayIndex_y);	
 }
 
 void RuleSystem::update(float dTime)
 {
 	for(auto hood : mNeighborhoodArray){
-		anchor();
 		CA::BaseNeighborhood::NeighborBitset neighbors = hood->update(dTime);
 		int aliveNeighbors = 0;
 		int deadNeighbors = 0;
