@@ -5,7 +5,7 @@
 #include <memory>
 namespace CA{
 
-World::World(sf::RenderWindow& target) : mRenderSystem(target), mRuleSystem(CA::BaseNeighborhood::ONE_DIM_THREE_CELL)
+World::World(sf::RenderWindow& target) : mRenderSystem(target), mRuleSystem(CA::BaseNeighborhood::MOORE)
 {
 	mCells.reserve(GRIDCELL_WIDTH * GRIDCELL_HEIGHT);
 }
@@ -16,9 +16,9 @@ void World::init()
 	mRuleSystem.initRules(rulesFile);
 
 	//push shared ptr in mCells, and send it to rulesystem to make a neighborhood
-	for(int i = 0; i < WINDOW_WIDTH; i+=CA::CELL_WIDTH){
-		for(int j = 0; j < WINDOW_HEIGHT; j+=CA::CELL_HEIGHT){
-			auto cell = std::make_shared<Cell>(i, j, false);
+	for(int i = 0; i < WINDOW_HEIGHT; i+=CA::CELL_HEIGHT){
+		for(int j = 0; j < WINDOW_WIDTH; j+=CA::CELL_WIDTH){
+			auto cell = std::make_shared<Cell>(j, i, false);
 			mCells.push_back(cell);
 			mRenderSystem.addCell(cell);
 			mRuleSystem.addNeighborhood(cell);

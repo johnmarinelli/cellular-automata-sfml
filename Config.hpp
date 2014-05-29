@@ -13,7 +13,7 @@ const int GRIDCELL_HEIGHT = WINDOW_HEIGHT / CA::CELL_HEIGHT;
 
 inline int getIndex(int x, int y)
 {    
-	return y + (x * GRIDCELL_HEIGHT);
+	return x + (y * GRIDCELL_WIDTH);
 }
 
 }

@@ -16,11 +16,11 @@ void Moore::init(std::vector<std::shared_ptr<CA::Cell> >& cells, int arrayIndex_
     //from (x,y) to our local neighborhood of (i, j)
     int i = 0, j = 0;
 
-    for(; startX <= endX; startX++, i++){
-        for(; startY <= endY; startY++, j++){
+    for(; startY <= endY; startY++, i++){
+        for(; startX <= endX; startX++, j++){
             mCells[i+j*mWidth] = cells[getIndex(startX, startY)];
         }
-        startY = y > 0 ? y-1 : y;
+        startX = x > 0 ? x-1 : x;
         j = 0;
     }
 }
@@ -32,14 +32,14 @@ BaseNeighborhood::NeighborBitset Moore::update(float dTime)
     std::vector<CA::State> bitLine;
     bitLine.reserve(mWidth);
 
-    for(int i = 0; i < mWidth; i++){
+    for(int i = 0; i < mHeight; i++){
         bitLine.clear();
-        for(int j = 0; j < mHeight; j++){
-            if(mCells[i+j*mWidth].get() == mCenter.get()){
+        for(int j = 0; j < mWidth; j++){
+            if(mCells[i+j*mHeight].get() == mCenter.get()){
                bitLine.push_back(CA::State::OFF);
             }
             else{
-                bitLine.push_back(mCells[i+j*mWidth]->getState() == true ? CA::State::ON : CA::State::OFF);
+                bitLine.push_back(mCells[i+j*mHeight]->getState() == true ? CA::State::ON : CA::State::OFF);
             }
         }
         neighbors.push_back(bitLine);
