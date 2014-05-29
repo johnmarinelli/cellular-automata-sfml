@@ -5,7 +5,7 @@
 #include <memory>
 namespace CA{
 
-World::World(sf::RenderWindow& target) : mRenderSystem(target), mRuleSystem(CA::BaseNeighborhood::MOORE)
+World::World(sf::RenderWindow& target) : mRenderSystem(target), mRuleSystem(CA::BaseNeighborhood::ONE_DIM_THREE_CELL)
 {
 	mCells.reserve(GRIDCELL_WIDTH * GRIDCELL_HEIGHT);
 }

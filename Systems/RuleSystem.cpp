@@ -6,6 +6,7 @@
 
 #include "RuleSystem.hpp"
 #include "../Neighborhoods/Moore.hpp"
+#include "../Neighborhoods/OneDimThreeCell.hpp"
 #include "../Config.hpp"
 
 namespace CA{
@@ -106,6 +107,11 @@ void RuleSystem::addNeighborhood(std::shared_ptr<CA::Cell> center)
 {
 	if(mNeighborhoodType == BaseNeighborhood::Neighborhoods::MOORE){
 		auto neighborhood = std::make_shared<Moore>(center);
+		mNeighborhoodArray.push_back(neighborhood);
+	}
+
+	else if(mNeighborhoodType == BaseNeighborhood::Neighborhoods::ONE_DIM_THREE_CELL){
+		auto neighborhood = std::make_shared<OneDimThreeCell>(center);
 		mNeighborhoodArray.push_back(neighborhood);
 	}
 }

@@ -4,53 +4,17 @@ namespace CA{
 
 void Moore::init(std::vector<std::shared_ptr<CA::Cell> >& cells, int arrayIndex_x, int arrayIndex_y)
 {
-	/*MAKE A 3X3 NEIGHBORHOOD AROUND CENTER*/
-    int startX = 0, endX = 0;
-    int startY = 0, endY = 0;
-    int x = arrayIndex_x;
-    int y = arrayIndex_y;
-
-    if(x > 0){
-        if(x < GRIDCELL_WIDTH-1){
-            startX = x - 1;
-            endX = x + 1;
-        }
-        else if(x >= GRIDCELL_WIDTH-1){
-            startX = x - 1;
-            endX = x;
-            mWidth--;
-        }
-    }
-    else if(x <= 0){
-        startX = x;
-        endX = x + 1;
-        mWidth--;
-	}
-
-    if(y > 0){
-       if(y < GRIDCELL_HEIGHT-1){
-            startY = y - 1;
-            endY = y + 1;
-        }
-        else if(y >= GRIDCELL_HEIGHT-1){
-            startY = y - 1;
-            endY = y;
-            mHeight--;
-        }
-    }
-    else if(y <= 0){
-        startY = y;
-        endY = y + 1;
-        mHeight--;
-    }
+	int startX = 0, endX = 0;
+	int startY = 0, endY = 0;
+	int x = arrayIndex_x, y = arrayIndex_y;
+	initBoundsTwoDim(startX, startY, endX, endY, mWidth, mHeight, x, y);
 
 	for(int i = 0; i < mWidth*mHeight; i++){
         mCells.push_back(std::make_shared<CA::Cell>(0, 0, false));
     }
 
     //from (x,y) to our local neighborhood of (i, j)
-    int i = 0;
-    int j = 0;
+    int i = 0, j = 0;
 
     for(; startX <= endX; startX++, i++){
         for(; startY <= endY; startY++, j++){

@@ -1,16 +1,12 @@
 #ifndef BASENEIGHBORHOOD_HPP
 #define BASENEIGHBORHOOD_HPP
 
-//#include "../Utilities.hpp"
 #include "../Config.hpp"
 #include "../Cell.hpp"
 #include <memory>
 #include <vector>
 
 namespace CA{
-
-//const int GRIDCELL_WIDTH = WINDOW_WIDTH / CA::CELL_WIDTH;
-//const int GRIDCELL_HEIGHT = WINDOW_HEIGHT / CA::CELL_HEIGHT;
 
 template<typename T>
 T& insert_at(T& container, size_t index, const typename T::value_type& value)
@@ -19,15 +15,89 @@ T& insert_at(T& container, size_t index, const typename T::value_type& value)
 	return container;
 }
 
+inline void initBoundsOneDim(int& startX, int& startY, int&endX, int& endY,
+uint8_t& width, uint8_t& height, int arrayIndex_x, int arrayIndex_y)
+{
+	int x = arrayIndex_x;
+	int y = arrayIndex_y;
+
+	int horizontalWidth = width / 2;
+
+	//what if it's one cell away from an edge, and we're making 1x5 neighborhoods? then we need 1 neighbor on one side & 2 on other
+	if(x > 0){
+        if(x < GRIDCELL_WIDTH-1){
+            startX = x - horizontalWidth;
+            endX = x + horizontalWidth;
+        }
+        else if(x >= GRIDCELL_WIDTH-1){
+            startX = x - horizontalWidth;
+            endX = x;
+            width--;
+        }
+    }
+    else if(x <= 0){
+        startX = x;
+        endX = x + horizontalWidth;
+        width--;
+    }
+
+	//since it's 1D, we just check if we've reached the bottom of the screen and cap if we have.
+    if(y >= GRIDCELL_HEIGHT-1){
+		endY = 0;
+		height = 0;
+   	} 
+}
+
+inline void initBoundsTwoDim(int& startX, int& startY, int& endX, int& endY, uint8_t& width, uint8_t& height, int arrayIndex_x, int arrayIndex_y)
+{
+	int x = arrayIndex_x;
+	int y = arrayIndex_y;
+
+	if(x > 0){
+        if(x < GRIDCELL_WIDTH-1){
+            startX = x - 1;
+            endX = x + 1;
+        }
+        else if(x >= GRIDCELL_WIDTH-1){
+            startX = x - 1;
+            endX = x;
+            width--;
+        }
+    }
+    else if(x <= 0){
+        startX = x;
+        endX = x + 1;
+        width--;
+    }
+
+    if(y > 0){
+       if(y < GRIDCELL_HEIGHT-1){
+            startY = y - 1;
+            endY = y + 1;
+        }
+        else if(y >= GRIDCELL_HEIGHT-1){
+            startY = y - 1;
+            endY = y;
+            height--;
+        }
+    }
+    else if(y <= 0){
+        startY = y;
+        endY = y + 1;
+        height--;
+    }
+
+}
+
 class BaseNeighborhood
 {
 public:
 	typedef std::vector<std::vector<CA::State> > NeighborBitset;
 
-	enum Neighborhoods { ONE_D_THREE_CELL, ONE_D_FIVE_CELL, VON_NEUMANN, MOORE };
+	enum Neighborhoods { ONE_DIM_THREE_CELL, ONE_DIM_FIVE_CELL, VON_NEUMANN, MOORE };
     Neighborhoods mNeighborhoodType;
-	int mWidth;
-	int mHeight;
+	uint8_t mWidth;
+	uint8_t mHeight;
 
 	typedef std::vector<std::shared_ptr<CA::Cell> > CellArray;
 	CellArray mCells;
