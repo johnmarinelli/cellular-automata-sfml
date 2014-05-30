@@ -33,15 +33,33 @@ public:
 
 		int i = 0, j = 0;
 
-		for(; startX <= endX; startX++, i++){
-			for(; startY <= endY; startY++, j++){
-				//getIndex works vertically but we're doing horizontal arrays, which is why we do getIndex(y, x). hackish, needs to be looked into
-				mCells[i+j*mWidth] = cells[getIndex(startY, startX)];
+		for(; startY <= endY; startY++, i++){
+			for(; startX <= endX; startX++, j++){
+				mCells[j] = cells[getIndex(startX, startY)];
 			}
 		}
 	}
 
-	NeighborBitset update(float dTime){};
+	NeighborBitset update(float dTime)
+	{
+		NeighborBitset neighbors;
+		std::vector<CA::State> bitLine;
+		bitLine.reserve(ONEDIMTHREECELL_NEIGHBORHOOD_WIDTH);
+	
+		for(int i = 0; i < mHeight; i++){
+			for(int j = 0; j < mWidth; j++){
+				if(mCells[i+j].get() == mCenter.get()){
+					bitLine.push_back(CA::State::OFF);
+				}
+				else{
+					bitLine.push_back(mCells[i+j*mHeight]->getState() == true ? CA::State::ON : CA::State::OFF);
+				}
+			}
+			neighbors.push_back(bitLine);
+		}
+	
+		return neighbors;
+	}
 
 	~OneDimThreeCell()
 	{

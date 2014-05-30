@@ -1,0 +1,4 @@
+ONEDIMTHREECELL
+
+001
+/rule

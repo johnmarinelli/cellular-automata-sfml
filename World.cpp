@@ -5,14 +5,14 @@
 #include <memory>
 namespace CA{
 
-World::World(sf::RenderWindow& target) : mRenderSystem(target), mRuleSystem(CA::BaseNeighborhood::MOORE)
+World::World(sf::RenderWindow& target) : mRenderSystem(target), mRuleSystem(CA::BaseNeighborhood::ONE_DIM_THREE_CELL)
 {
 	mCells.reserve(GRIDCELL_WIDTH * GRIDCELL_HEIGHT);
 }
 
 void World::init()
 {
-	std::ifstream rulesFile("Rules/Conway.txt");
+	std::ifstream rulesFile("Rules/OneDimThreeCell.txt");
 	mRuleSystem.initRules(rulesFile);
 
 	//push shared ptr in mCells, and send it to rulesystem to make a neighborhood
@@ -26,16 +26,14 @@ void World::init()
 	}
 
 	//initialize all the neighborhoods AFTER our mCells is complete
-	for(int i = 0; i < GRIDCELL_WIDTH; ++i){
-		for(int j = 0; j < GRIDCELL_HEIGHT; ++j){
-			mRuleSystem.initNeighborhoods(mCells, i, j);
+	for(int i = 0; i < GRIDCELL_HEIGHT; ++i){
+		for(int j = 0; j < GRIDCELL_WIDTH; ++j){
+			mRuleSystem.initNeighborhoods(mCells, j, i);
 		}
 	}
 
 	mCells[getIndex(3, 1)]->setState(true);
 	mCells[getIndex(3, 2)]->setState(true);
-	mCells[getIndex(3, 3)]->setState(true);
-	mCells[getIndex(3, 4)]->setState(true);
 }
 
 void World::update(float dTime)

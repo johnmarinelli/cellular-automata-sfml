@@ -59,27 +59,28 @@ void RuleSystem::initRules(std::ifstream& rulesFile)
 	else{
 		std::string neighborhoodType;
 		rulesFile >> neighborhoodType;
-		RuleComponent rule(3); //need to make 3 a variable for genericism
+		RuleComponent rule(1); //need to make ctor arg a variable for genericism
 
 		while(!rulesFile.eof()){
 			std::string str;
 			std::getline(rulesFile, str);
 			std::cout << str << std::endl;
-	/*
+	
 			//specific rules	
 			if(str == "/rule"){
 				mRules.push_back(rule);
 				rule.clear();
 			}
 			
-			else if(str != ""){	
+			//if string starts with 0 or 1, it's a rule line
+			else if(str[0] == '1' || str[0] == '0'){	
 				//make a bitset from the string.
 				std::vector<CA::State> bitSet= turnStringToBitset(str);
 				rule.addLine(bitSet);
-			}*/
+			}
 
 			//generic, outer totalistic rules
-			if(str == "CELLALIVE"){
+			else if(str == "CELLALIVE"){
 				std::getline(rulesFile, str);
 				while(str != "/CELLALIVE"){
 					parseTotalisticRules(str, true);
@@ -95,7 +96,6 @@ void RuleSystem::initRules(std::ifstream& rulesFile)
 				}
 			}
 			
-
 			else if(str != ""){
 				std::cout << "Couldn't understand " << str << std::endl;
 			}
@@ -121,8 +121,12 @@ void RuleSystem::initNeighborhoods(std::vector<std::shared_ptr<CA::Cell> >& cell
 	mNeighborhoodArray[getIndex(arrayIndex_x, arrayIndex_y)]->init(cells, arrayIndex_x, arrayIndex_y);	
 }
 
+void anchor(){}
+
+
 void RuleSystem::update(float dTime)
 {
+	int test = 0;
 	for(auto hood : mNeighborhoodArray){
 		CA::BaseNeighborhood::NeighborBitset neighbors = hood->update(dTime);
 		int aliveNeighbors = 0;
@@ -138,7 +142,8 @@ void RuleSystem::update(float dTime)
 				}
 			}
 		}
-		
+
+		/*TOTALISTIC RULES*/	
 		if(hood->mCenter->getState()){
 			for(auto rule : mAliveToDeadGreaterThan){
 				if(aliveNeighbors > rule){
@@ -178,6 +183,19 @@ void RuleSystem::update(float dTime)
 				}
 			}
 		}
+
+		/*SPECIFIC RULES*/
+		for(auto rule : mRules){
+			if(rule.compare(neighbors)){
+				anchor();
+				if(hood->mCenter->getPosition().y == 10.0){
+					anchor();
+				}
+				mNeighborhoodArray[test>3000?test:test+1]->mCenter->setState(true);
+			}
+		}
+
+		test++;	
 	}
 }
 
