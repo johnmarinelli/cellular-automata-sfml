@@ -11,6 +11,8 @@
 
 namespace CA{
 
+void anchor(){}
+
 std::vector<CA::State> turnStringToBitset(std::string& bitString)
 {
 	std::vector<CA::State> bitSet;
@@ -118,16 +120,18 @@ void RuleSystem::addNeighborhood(std::shared_ptr<CA::Cell> center)
 
 void RuleSystem::initNeighborhoods(std::vector<std::shared_ptr<CA::Cell> >& cells, int arrayIndex_x, int arrayIndex_y)
 {
+	if(arrayIndex_x == 10 && arrayIndex_y)
+		anchor();
+
 	mNeighborhoodArray[getIndex(arrayIndex_x, arrayIndex_y)]->init(cells, arrayIndex_x, arrayIndex_y);	
 }
-
-void anchor(){}
-
 
 void RuleSystem::update(float dTime)
 {
 	int test = 0;
 	for(auto hood : mNeighborhoodArray){
+		if(test == 65)
+			anchor();
 		CA::BaseNeighborhood::NeighborBitset neighbors = hood->update(dTime);
 		int aliveNeighbors = 0;
 		int deadNeighbors = 0;
@@ -185,13 +189,12 @@ void RuleSystem::update(float dTime)
 		}
 
 		/*SPECIFIC RULES*/
-		for(auto rule : mRules){
+		for(auto rule : mRules){	
+//			anchor();
 			if(rule.compare(neighbors)){
 				anchor();
-				if(hood->mCenter->getPosition().y == 10.0){
-					anchor();
-				}
-				mNeighborhoodArray[test>3000?test:test+1]->mCenter->setState(true);
+				rule.compare(neighbors);
+				mNeighborhoodArray[test+GRIDCELL_WIDTH]->mCenter->setState(true);
 			}
 		}
 

@@ -45,9 +45,8 @@ public:
 				isEqual = false;
 			}
 
-			index++;
+			index = index < other.size() ? index++ : index;
 		}
-	
 		return isEqual;
 	}
 
@@ -63,7 +62,7 @@ public:
 				}
 			}
 			std::cout << "\n";
-		}
+		}	
 	}
 };
 

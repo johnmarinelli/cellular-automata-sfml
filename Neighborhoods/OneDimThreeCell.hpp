@@ -22,7 +22,7 @@ public:
 	{
 		//1x3 neighborhood around center
 		int startX = 0, endX = 0;
-		int startY = 0, endY = 1;
+		int startY = 0, endY = 0;
 		int x = arrayIndex_x, y = arrayIndex_y;
 
 		initBoundsOneDim(startX, startY, endX, endY, mWidth, mHeight, x, y);

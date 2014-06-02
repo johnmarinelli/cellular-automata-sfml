@@ -32,8 +32,8 @@ void World::init()
 		}
 	}
 
-	mCells[getIndex(3, 1)]->setState(true);
-	mCells[getIndex(3, 2)]->setState(true);
+//	mCells[getIndex(28, 0)]->setState(true);
+	mCells[getIndex(30, 0)]->setState(true);
 }
 
 void World::update(float dTime)

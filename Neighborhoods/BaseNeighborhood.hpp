@@ -45,7 +45,12 @@ uint8_t& width, uint8_t& height, int arrayIndex_x, int arrayIndex_y)
     if(y >= GRIDCELL_HEIGHT-1){
 		endY = 0;
 		height = 0;
-   	} 
+   	}
+	else{
+		startY = arrayIndex_y;
+		endY = startY + 1;
+		height = 1;
+	} 
 }
 
 inline void initBoundsTwoDim(int& startX, int& startY, int& endX, int& endY, uint8_t& width, uint8_t& height, int arrayIndex_x, int arrayIndex_y)
