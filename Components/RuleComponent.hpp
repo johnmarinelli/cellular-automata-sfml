@@ -38,7 +38,15 @@ public:
 
 		//check for more than zero because the bottom row will have 0 elements
 		for(auto line : mRule){
-			if(other.size() > 0 && std::equal(line.begin(), line.begin() + line.size(), other[index].begin())){
+			if(other.size() > 0){
+				auto a = line;
+				auto a1 = a[0];
+				auto a2 = a[1];
+				CA::State a3;
+				if(line.size() > 3)
+					a3 = a[2];
+			}
+			if(other.size() > 0 && other[index].size() == line.size() && std::equal(line.begin(), line.begin() + line.size(), other[index].begin())){
 				isEqual = true;
 			}
 			else{

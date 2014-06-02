@@ -1,5 +1,6 @@
 ONEDIMTHREECELL
 
-100
 001
+/rule
+100
 /rule
