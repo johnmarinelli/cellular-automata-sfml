@@ -5,14 +5,14 @@
 #include <memory>
 namespace CA{
 
-World::World(sf::RenderWindow& target) : mRenderSystem(target), mRuleSystem(CA::BaseNeighborhood::ONE_DIM_THREE_CELL)
+World::World(sf::RenderWindow& target) : mRenderSystem(target), mRuleSystem(CA::BaseNeighborhood::ONE_DIMENSION, 5)
 {
 	mCells.reserve(GRIDCELL_WIDTH * GRIDCELL_HEIGHT);
 }
 
 void World::init()
 {
-	std::ifstream rulesFile("Rules/OneDimThreeCell.txt");
+	std::ifstream rulesFile("Rules/OneDimFiveCell.txt");
 	mRuleSystem.initRules(rulesFile);
 
 	//push shared ptr in mCells, and send it to rulesystem to make a neighborhood
@@ -32,7 +32,7 @@ void World::init()
 		}
 	}
 
-//	mCells[getIndex(28, 0)]->setState(true);
+	mCells[getIndex(28, 0)]->setState(true);
 	mCells[getIndex(30, 0)]->setState(true);
 }
 

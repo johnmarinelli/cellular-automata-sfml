@@ -26,11 +26,12 @@ private:
 	IntArray mDeadToAliveEqualsTo;
 
 	BaseNeighborhood::Neighborhoods mNeighborhoodType;
+	int mNeighborhoodWidth;
 
 	void parseTotalisticRules(std::string, bool);
 
 public:
-	RuleSystem(BaseNeighborhood::Neighborhoods hood) : mNeighborhoodType(hood)
+	RuleSystem(BaseNeighborhood::Neighborhoods hood, int width = 0) : mNeighborhoodType(hood), mNeighborhoodWidth(width)
 	{
 	}
 

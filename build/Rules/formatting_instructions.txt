@@ -1,0 +1,10 @@
+NEIGHBORHOODTYPE
+# OF ROWS (int)
+
+specificrule(bitstring)
+/rule
+
+totalistic rule(CELLALIVE/CELLDEAD)
+#:TRUE
+#:FALSE
+/rule

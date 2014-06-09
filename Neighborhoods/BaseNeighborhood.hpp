@@ -23,6 +23,51 @@ uint8_t& width, uint8_t& height, int arrayIndex_x, int arrayIndex_y)
 
 	int horizontalWidth = width / 2;
 
+	if(x - horizontalWidth > 0){
+	    //normal; position is somewhere between bounds
+            if(x + horizontalWidth < GRIDCELL_WIDTH-1){
+                startX = x - horizontalWidth;
+                endX = x + horizontalWidth;
+            }
+	    //on the right hand side edge
+            else if(x + horizontalWidth >= GRIDCELL_WIDTH-1){
+		uint8_t difference = (x+horizontalWidth) - (GRIDCELL_WIDTH-1);
+
+                startX = x - horizontalWidth;
+                endX = GRIDCELL_WIDTH-1;
+                width -= difference;
+            }
+        }
+
+	//on the left hand side edge
+        else if(x - horizontalWidth <= 0){
+	    uint8_t difference = horizontalWidth - x;
+
+            startX = 0;
+            endX = x + horizontalWidth;
+            width -= difference;
+        }
+
+	//since it's 1D, we just check if we've reached the bottom of the screen and cap if we have.
+    if(y >= GRIDCELL_HEIGHT-1){
+		endY = 0;
+		height = 0;
+   	}
+	else{
+		startY = arrayIndex_y;
+		endY = startY + 1;
+		height = 1;
+	} 
+}
+/*
+inline void initBoundsOneDim_ORIG(int& startX, int& startY, int&endX, int& endY,
+uint8_t& width, uint8_t& height, int arrayIndex_x, int arrayIndex_y)
+{
+	int x = arrayIndex_x;
+	int y = arrayIndex_y;
+
+	int horizontalWidth = width / 2;
+
 	//what if it's one cell away from an edge, and we're making 1x5 neighborhoods? then we need 1 neighbor on one side & 2 on other
 	if(x > 0){
         if(x < GRIDCELL_WIDTH-1){
@@ -52,6 +97,7 @@ uint8_t& width, uint8_t& height, int arrayIndex_x, int arrayIndex_y)
 		height = 1;
 	} 
 }
+*/
 
 inline void initBoundsTwoDim(int& startX, int& startY, int& endX, int& endY, uint8_t& width, uint8_t& height, int arrayIndex_x, int arrayIndex_y)
 {
@@ -99,7 +145,7 @@ class BaseNeighborhood
 public:
 	typedef std::vector<std::vector<CA::State> > NeighborBitset;
 
-	enum Neighborhoods { ONE_DIM_THREE_CELL, ONE_DIM_FIVE_CELL, VON_NEUMANN, MOORE };
+	enum Neighborhoods { ONE_DIMENSION, ONE_DIM_THREE_CELL, ONE_DIM_FIVE_CELL, VON_NEUMANN, MOORE };
     Neighborhoods mNeighborhoodType;
 	uint8_t mWidth;
 	uint8_t mHeight;

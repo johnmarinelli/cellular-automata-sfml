@@ -7,6 +7,8 @@
 #include "RuleSystem.hpp"
 #include "../Neighborhoods/Moore.hpp"
 #include "../Neighborhoods/OneDimThreeCell.hpp"
+#include "../Neighborhoods/OneDimFiveCell.hpp"
+#include "../Neighborhoods/OneDimension.hpp"
 #include "../Config.hpp"
 
 namespace CA{
@@ -61,13 +63,15 @@ void RuleSystem::initRules(std::ifstream& rulesFile)
 	else{
 		std::string neighborhoodType;
 		rulesFile >> neighborhoodType;
-		RuleComponent rule(1); //need to make ctor arg a variable for genericism
+		int numOfRows = 0;
+		rulesFile >> numOfRows;
+		RuleComponent rule(numOfRows); //need to make ctor arg a variable for genericism
 
 		while(!rulesFile.eof()){
 			std::string str;
 			std::getline(rulesFile, str);
 			std::cout << str << std::endl;
-	
+
 			//specific rules	
 			if(str == "/rule"){
 				mRules.push_back(rule);
@@ -114,6 +118,16 @@ void RuleSystem::addNeighborhood(std::shared_ptr<CA::Cell> center)
 
 	else if(mNeighborhoodType == BaseNeighborhood::Neighborhoods::ONE_DIM_THREE_CELL){
 		auto neighborhood = std::make_shared<OneDimThreeCell>(center);
+		mNeighborhoodArray.push_back(neighborhood);
+	}
+	
+	else if(mNeighborhoodType == BaseNeighborhood::Neighborhoods::ONE_DIM_FIVE_CELL){
+		auto neighborhood = std::make_shared<OneDimFiveCell>(center);
+		mNeighborhoodArray.push_back(neighborhood);
+	}
+
+	else if(mNeighborhoodType == BaseNeighborhood::Neighborhoods::ONE_DIMENSION){
+		auto neighborhood = std::make_shared<OneDimension>(center, mNeighborhoodWidth);
 		mNeighborhoodArray.push_back(neighborhood);
 	}
 }
@@ -183,7 +197,7 @@ void RuleSystem::update(float dTime)
 			}
 		}
 
-		/*SPECIFIC RULES*/
+		/*SPECIFIC RULES, ONE DIM*/
 		for(auto rule : mRules){	
 			if(rule.compare(neighbors)){
 				anchor();

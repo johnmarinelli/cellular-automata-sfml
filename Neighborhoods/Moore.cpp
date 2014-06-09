@@ -32,6 +32,8 @@ BaseNeighborhood::NeighborBitset Moore::update(float dTime)
     std::vector<CA::State> bitLine;
     bitLine.reserve(mWidth);
 
+
+    /*INCONSISTENT: [i+j*mHeight]???*/
     for(int i = 0; i < mHeight; i++){
         bitLine.clear();
         for(int j = 0; j < mWidth; j++){

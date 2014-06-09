@@ -24,7 +24,7 @@ set(HEADERS
 	Systems/RuleSystem.hpp
 )
 
-add_executable(${EXECUTABLE_NAME} ${HEADERS} Systems/RuleSystem.cpp Neighborhoods/Moore.cpp World.cpp Game.cpp main.cpp)
+add_executable(${EXECUTABLE_NAME} ${HEADERS} Systems/RuleSystem.cpp Neighborhoods/OneDimThreeCell.cpp Neighborhoods/Moore.cpp World.cpp Game.cpp main.cpp)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 

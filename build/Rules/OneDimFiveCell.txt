@@ -1,0 +1,10 @@
+ONEDIMTHREECELL
+1
+00010
+/rule
+00001
+/rule
+10000
+/rule
+01000
+/rule
