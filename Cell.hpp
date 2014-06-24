@@ -14,10 +14,6 @@ enum State { OFF = false, ON = true, INVALID };
 class Cell
 {
 private:
-	/*
-	* I want to do an array of basecomponents but this is such a small project it woul 
-	* be a case of overengineering
-	*/
 	RectComponent mRect;
 	ShapeComponent mShape;
 	bool mState, mNextState;

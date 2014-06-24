@@ -22,6 +22,11 @@ private:
 	CA::RuleSystem mRuleSystem;
 	CellArray mCells;
 
+    int mPopulation;
+    int mGeneration;
+
+    void seedWorld();
+
 public:
 	World(sf::RenderWindow& target);
 	void init();

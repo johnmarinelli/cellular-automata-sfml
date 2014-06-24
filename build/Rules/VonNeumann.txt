@@ -1,0 +1,6 @@
+VONNEUMANN
+3
+010
+001
+000
+/rule

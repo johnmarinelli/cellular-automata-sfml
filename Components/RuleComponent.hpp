@@ -43,17 +43,26 @@ public:
 				auto a1 = a[0];
 				auto a2 = a[1];
 				CA::State a3;
-				if(line.size() > 3)
+				if(line.size() == 3)
 					a3 = a[2];
+
+                auto b = other[index];
+                auto b1 = b[0];
+                auto b2 = b[1];
+                CA::State b3;
+                if(other.size() == 3)
+                    b3 = b[2];
 			}
+
 			if(other.size() > 0 && other[index].size() == line.size() && std::equal(line.begin(), line.begin() + line.size(), other[index].begin())){
 				isEqual = true;
 			}
 			else{
 				isEqual = false;
+                return isEqual;
 			}
 
-			index = index < other.size() ? index++ : index;
+			index = index < other.size() ? index+1 : index;
 		}
 		return isEqual;
 	}

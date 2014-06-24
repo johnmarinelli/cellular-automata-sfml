@@ -32,9 +32,9 @@ public:
         int i = 0, j = 0;
 
         for(; startY <= endY; startY++, i++){
-                for(; startX <= endX; startX++, j++){
-                        mCells[j] = cells[getIndex(startX, startY)];
-                }
+            for(; startX <= endX; startX++, j++){
+                mCells[j] = cells[getIndex(startX, startY)];
+            }
         }
     }
 
@@ -45,15 +45,15 @@ public:
         bitLine.reserve(mWidth);
 
         for(int i = 0; i < mHeight; i++){
-                for(int j = 0; j < mWidth; j++){
-                        if(mCells[i+j].get() == mCenter.get()){
-                               bitLine.push_back(CA::State::OFF);
-                        }
-                        else{
-                                bitLine.push_back(mCells[i+j*mHeight]->getState() == true ? CA::State::ON : CA::State::OFF);
-                        }
+            for(int j = 0; j < mWidth; j++){
+                if(mCells[i+j].get() == mCenter.get()){
+                    bitLine.push_back(CA::State::OFF);
                 }
-                neighbors.push_back(bitLine);
+                else{
+                    bitLine.push_back(mCells[i+j*mHeight]->getState() == true ? CA::State::ON : CA::State::OFF);
+                }
+            }
+            neighbors.push_back(bitLine);
         }
 
         return neighbors;

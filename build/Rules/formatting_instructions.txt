@@ -5,6 +5,6 @@ specificrule(bitstring)
 /rule
 
 totalistic rule(CELLALIVE/CELLDEAD)
-#:TRUE
-#:FALSE
-/rule
+<#:DEAD
+>#:ALIVE
+/CELLALIVE || /CELLDEAD

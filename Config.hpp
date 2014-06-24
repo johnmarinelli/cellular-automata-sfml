@@ -7,8 +7,8 @@
 
 namespace CA{
 
-const float CELL_WIDTH = 5.0;
-const float CELL_HEIGHT = 5.0;
+const float CELL_WIDTH = 20.0;
+const float CELL_HEIGHT = 20.0;
 
 const int GRIDCELL_WIDTH = WINDOW_WIDTH / CA::CELL_WIDTH;
 const int GRIDCELL_HEIGHT = WINDOW_HEIGHT / CA::CELL_HEIGHT;

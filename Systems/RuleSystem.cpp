@@ -9,6 +9,7 @@
 #include "../Neighborhoods/OneDimThreeCell.hpp"
 #include "../Neighborhoods/OneDimFiveCell.hpp"
 #include "../Neighborhoods/OneDimension.hpp"
+#include "../Neighborhoods/VonNeumann.hpp"
 #include "../Config.hpp"
 
 namespace CA{
@@ -115,7 +116,7 @@ void RuleSystem::addNeighborhood(std::shared_ptr<CA::Cell> center)
 		auto neighborhood = std::make_shared<Moore>(center);
 		mNeighborhoodArray.push_back(neighborhood);
 	}
-
+/*
 	else if(mNeighborhoodType == BaseNeighborhood::Neighborhoods::ONE_DIM_THREE_CELL){
 		auto neighborhood = std::make_shared<OneDimThreeCell>(center);
 		mNeighborhoodArray.push_back(neighborhood);
@@ -124,18 +125,25 @@ void RuleSystem::addNeighborhood(std::shared_ptr<CA::Cell> center)
 	else if(mNeighborhoodType == BaseNeighborhood::Neighborhoods::ONE_DIM_FIVE_CELL){
 		auto neighborhood = std::make_shared<OneDimFiveCell>(center);
 		mNeighborhoodArray.push_back(neighborhood);
-	}
+	}*/
 
 	else if(mNeighborhoodType == BaseNeighborhood::Neighborhoods::ONE_DIMENSION){
 		auto neighborhood = std::make_shared<OneDimension>(center, mNeighborhoodWidth);
 		mNeighborhoodArray.push_back(neighborhood);
 	}
+
+    else if(mNeighborhoodType == BaseNeighborhood::Neighborhoods::VON_NEUMANN){
+        auto neighborhood = std::make_shared<VonNeumann>(center);
+        mNeighborhoodArray.push_back(neighborhood);
+    }
 }
 
 void RuleSystem::initNeighborhoods(std::vector<std::shared_ptr<CA::Cell> >& cells, int arrayIndex_x, int arrayIndex_y)
 {
 	mNeighborhoodArray[getIndex(arrayIndex_x, arrayIndex_y)]->init(cells, arrayIndex_x, arrayIndex_y);	
 }
+
+static int generations = 0;
 
 void RuleSystem::update(float dTime)
 {
@@ -154,7 +162,7 @@ void RuleSystem::update(float dTime)
 					deadNeighbors++;
 				}
 			}
-		}
+	    }
 
 		/*TOTALISTIC RULES*/	
 		if(hood->mCenter->getState()){
@@ -197,20 +205,29 @@ void RuleSystem::update(float dTime)
 			}
 		}
 
-		/*SPECIFIC RULES, ONE DIM*/
-		for(auto rule : mRules){	
-			if(rule.compare(neighbors)){
-				anchor();
-				rule.compare(neighbors);
-				auto coords = getCartesian(index);
-				if(coords.y < GRIDCELL_HEIGHT){
-					mNeighborhoodArray[getIndex(coords.x, coords.y+1)]->mCenter->setState(true);
-				}
-			}
+        /*SPECIFIC RULES, ONE DIM*/
+        if(mNeighborhoodType == BaseNeighborhood::Neighborhoods::ONE_DIMENSION){
+  		    for(auto rule : mRules){	
+		        if(rule.compare(neighbors)){
+				    auto coords = getCartesian(index);
+    				if(coords.y < GRIDCELL_HEIGHT){
+    					mNeighborhoodArray[getIndex(coords.x, coords.y+1)]->mCenter->setState(true);
+    				}
+    			}
+            }
 		}
+        
+        /*SPECIFIC RULES, TWO DIM*/
+        else if(mNeighborhoodType == BaseNeighborhood::Neighborhoods::MOORE || mNeighborhoodType == BaseNeighborhood::Neighborhoods::VON_NEUMANN){
+            for(auto rule : mRules){
+                if(rule.compare(neighbors)){
+                    hood->mCenter->setState(true);
+                }
+            }
+        }
+    }  //for
 
-		index++;
-	}
-}
+    generations++;
+} //update
 
-}
+} //CA

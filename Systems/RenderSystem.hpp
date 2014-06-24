@@ -2,6 +2,7 @@
 #define RENDERSYSTEM_HPP
 
 #include "BaseSystem.hpp"
+#include <string>
 
 namespace CA{
 
@@ -10,9 +11,12 @@ class RenderSystem : public BaseSystem
 private:
 	sf::RenderWindow* mWindow;
 	CellArray mCells;
+
+    int& mPopulation;
+    int& mGeneration;
 	
 public:
-	RenderSystem(sf::RenderWindow& target) : mWindow(&target)
+	RenderSystem(sf::RenderWindow& target, int& population, int& generation) : mWindow(&target), mPopulation(population), mGeneration(generation)
 	{	
 		mCells.reserve((WINDOW_WIDTH / CA::CELL_WIDTH) * (WINDOW_HEIGHT / CA::CELL_HEIGHT));
 	}
@@ -34,6 +38,21 @@ public:
 				mWindow->draw(shape.getRectangleShape());	
 			}
 		}
+
+
+    sf::Font font;
+    sf::Text text;
+    if(!font.loadFromFile("../assets/courier.ttf")){
+//        std::cout << "Couldn't load font";
+    }
+    else{
+        text.setFont(font);
+        text.setString(std::to_string(mGeneration));
+        text.setCharacterSize(24);
+        text.setColor(sf::Color::White);
+        mWindow->draw(text);
+    }
+    
 	}
 
 	~RenderSystem()

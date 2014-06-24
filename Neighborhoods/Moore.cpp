@@ -32,16 +32,14 @@ BaseNeighborhood::NeighborBitset Moore::update(float dTime)
     std::vector<CA::State> bitLine;
     bitLine.reserve(mWidth);
 
-
-    /*INCONSISTENT: [i+j*mHeight]???*/
     for(int i = 0; i < mHeight; i++){
         bitLine.clear();
         for(int j = 0; j < mWidth; j++){
-            if(mCells[i+j*mHeight].get() == mCenter.get()){
+            if(mCells[i+j*mWidth].get() == mCenter.get()){
                bitLine.push_back(CA::State::OFF);
             }
             else{
-                bitLine.push_back(mCells[i+j*mHeight]->getState() == true ? CA::State::ON : CA::State::OFF);
+                bitLine.push_back(mCells[i+j*mWidth]->getState() == true ? CA::State::ON : CA::State::OFF);
             }
         }
         neighbors.push_back(bitLine);
