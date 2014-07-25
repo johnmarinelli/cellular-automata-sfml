@@ -3,15 +3,16 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <algorithm>
 
 namespace CA{
 
-World::World(sf::RenderWindow& target) : mPopulation(0), mGeneration(0), mRenderSystem(target, mPopulation, mGeneration), mRuleSystem(CA::BaseNeighborhood::VON_NEUMANN)
+World::World(sf::RenderWindow& target) : mPopulation(0), mGeneration(0), mRenderSystem(target, mPopulation, mGeneration), mRuleSystem(CA::BaseNeighborhood::MOORE)
 {
 	mCells.reserve(GRIDCELL_WIDTH * GRIDCELL_HEIGHT);
 }
 
-void World::seedWorld()
+void World::seedWorld(char* input)
 {
 /*
 	mCells[getIndex(0, 2)]->setState(true);
@@ -37,20 +38,34 @@ void World::seedWorld()
     mCells[getIndex(62, 4)]->setState(true);
     mCells[getIndex(60, 3)]->setState(true);
     mCells[getIndex(61, 2)]->setState(true);
+*/
+    std::ifstream seedFile(input);
+    if(!seedFile){
+        std::cerr << "Couldn't open seed file: " << input << std::endl;
+    }
+    else{
+        std::string coordinates;
 
-    mCells[getIndex(30, 30)]->setState(true);
-    mCells[getIndex(30, 29)]->setState(true);
-    mCells[getIndex(31, 29)]->setState(true);
-    mCells[getIndex(30, 31)]->setState(true);
-    mCells[getIndex(29, 30)]->setState(true);*/
+        while(!seedFile.eof()){
+            std::getline(seedFile, coordinates);
+            coordinates.erase(std::remove(coordinates.begin(), coordinates.end(), ' '), coordinates.end());
+            std::size_t hasComma = coordinates.find(",");
+            if(hasComma != std::string::npos){
+                int x = std::stoi(coordinates.substr(0, hasComma));
+                int y = std::stoi(coordinates.substr(hasComma+1));
 
-    mCells[getIndex(1, 1)]->setState(true);
-    mCells[getIndex(2, 2)]->setState(true);
+                mCells[getIndex(x, y)]->setState(true);
+            }
+            else{
+                std::cerr << "Malformed coordinate: " << coordinates << " in " << input << std::endl;
+            }
+        }
+    }
 }
 
-void World::init()
+void World::init(char* input[])
 {
-	std::ifstream rulesFile("Rules/VonNeumann.txt");
+	std::ifstream rulesFile(input[1]);
 	mRuleSystem.initRules(rulesFile);
 
 	//push shared ptr in mCells, and send it to rulesystem to make a neighborhood
@@ -70,7 +85,7 @@ void World::init()
 		}
 	}
 
-    seedWorld();
+    seedWorld(input[2]);
 }
 
 void World::update(float dTime)

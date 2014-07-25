@@ -4,10 +4,10 @@ Game::Game(sf::RenderWindow& window) : mRenderTarget(&window), mWorld(window)
 {
 }
 
-void Game::init()
+void Game::init(char* input[])
 {
 	mIsRunning = true;
-	mWorld.init();
+	mWorld.init(input);
 }
 
 void Game::handleEvents(sf::Event event)

@@ -3,7 +3,7 @@
 
 #include "Game.hpp"
 
-const float FRAMERATE = 1;
+const float FRAMERATE = 5;
 const float FPS = 1000 / FRAMERATE;
 
 int Run(Game& game, sf::RenderWindow& window)

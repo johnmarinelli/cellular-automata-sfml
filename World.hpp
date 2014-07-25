@@ -25,11 +25,11 @@ private:
     int mPopulation;
     int mGeneration;
 
-    void seedWorld();
+    void seedWorld(char* input);
 
 public:
 	World(sf::RenderWindow& target);
-	void init();
+	void init(char* input[]);
 	
 	void update(float dTime);
 	void render();
