@@ -14,7 +14,7 @@ private:
 public:
 	Game(sf::RenderWindow& window);
 
-	void init();
+	void init(char* input[]);
 
 	void handleEvents(sf::Event event);
 	void update(float dTime);
