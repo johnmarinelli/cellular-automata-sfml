@@ -14,31 +14,6 @@ World::World(sf::RenderWindow& target) : mPopulation(0), mGeneration(0), mRender
 
 void World::seedWorld(char* input)
 {
-/*
-	mCells[getIndex(0, 2)]->setState(true);
-    mCells[getIndex(1, 2)]->setState(true);
-    mCells[getIndex(2, 2)]->setState(true);
-    mCells[getIndex(2, 1)]->setState(true);
-    mCells[getIndex(1, 0)]->setState(true);
-
-    mCells[getIndex(30, 4)]->setState(true);
-    mCells[getIndex(31, 4)]->setState(true);
-    mCells[getIndex(32, 4)]->setState(true);
-    mCells[getIndex(30, 3)]->setState(true);
-    mCells[getIndex(31, 2)]->setState(true);
-
-	mCells[getIndex(0, 8)]->setState(true);
-    mCells[getIndex(1, 8)]->setState(true);
-    mCells[getIndex(2, 8)]->setState(true);
-    mCells[getIndex(2, 7)]->setState(true);
-    mCells[getIndex(1, 6)]->setState(true);
-
-    mCells[getIndex(60, 4)]->setState(true);
-    mCells[getIndex(61, 4)]->setState(true);
-    mCells[getIndex(62, 4)]->setState(true);
-    mCells[getIndex(60, 3)]->setState(true);
-    mCells[getIndex(61, 2)]->setState(true);
-*/
     std::ifstream seedFile(input);
     if(!seedFile){
         std::cerr << "Couldn't open seed file: " << input << std::endl;
