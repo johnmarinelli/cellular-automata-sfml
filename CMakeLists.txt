@@ -14,7 +14,7 @@ configure_file(
 )
 include_directories("${PROJECT_BINARY_DIR}")
 
-set(EXECUTABLE_NAME "GAME")
+set(EXECUTABLE_NAME "CA")
 
 set(HEADERS
 	Config.hpp
