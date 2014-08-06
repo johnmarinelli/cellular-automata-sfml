@@ -2,7 +2,8 @@
 ![alt-text](http://natureofcode.com/book/imgs/chapter07/ch07_12.png)
 From [Wikipedia](http://en.wikipedia.org/wiki/Cellular_automaton): *A cellular automaton is a discrete model studied in computability theory, mathematics, physics, complexity science, theoretical biology and microstructure modeling*
 
-**Less boring version**
+**Less boring version:**
+
 Cellular automata are really sweet models that make really sweet patterns.  They were first studied in the 1940s for watching the growth of crystals, and now we use them as a theoretical device for modelling all kinds of nifty things from the economy, to population growth, to life itself.  Personally, I just like how they look.
 
 Imagine a 2-dimensional grid.  In a cellular automata model, each cell has a finite state that is affected by its neighbors.  We have rules that determine how a cells' neighbors will affect it, and the whole model starts off with a predetermined seed.  
@@ -13,7 +14,7 @@ Imagine a 2-dimensional grid.  In a cellular automata model, each cell has a fin
 - cmake
 
 ##Installation
-First, clone the repo.  Then find and move your FindSFML.cmake (should be in <SFML directory>/cmake/Modules) into the build directory.  
+First, clone the repo.  Then find and move your FindSFML.cmake (should be in <SFML directory>/cmake/Modules) into the build directory.  Make.
 
 ##Usage
 You should now have a 'CA' file in your build directory.  To use the program, type into the command line:
